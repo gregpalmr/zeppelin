@@ -17,6 +17,9 @@
 
 package org.apache.zeppelin.interpreter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;
@@ -30,6 +33,8 @@ import org.apache.zeppelin.scheduler.Scheduler;
 public class LazyOpenInterpreter
     extends Interpreter
     implements WrappedInterpreter {
+
+  Logger logger = LoggerFactory.getLogger(LazyOpenInterpreter.class);
   private Interpreter intp;
   volatile boolean opened = false;
 
@@ -70,9 +75,11 @@ public class LazyOpenInterpreter
           intp.open();
           opened = true;
         } catch (Throwable e) {
+          logger.info("Exception while trying to open Interpreter. Error: '" + e.toString() + "'");
           // close interpreter to release resource,
           // otherwise these resources may leak when open it again.
-          intp.close();
+          if intp != null
+            intp.close();
           throw new InterpreterException(e);
         }
       }
