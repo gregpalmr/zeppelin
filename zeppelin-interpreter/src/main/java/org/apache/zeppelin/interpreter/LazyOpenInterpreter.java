@@ -78,8 +78,9 @@ public class LazyOpenInterpreter
           logger.info("Exception while trying to open Interpreter. Error: '" + e.toString() + "'");
           // close interpreter to release resource,
           // otherwise these resources may leak when open it again.
-          if intp != null
+          if (intp != null) }
             intp.close();
+          }
           throw new InterpreterException(e);
         }
       }
