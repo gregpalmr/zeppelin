@@ -128,7 +128,7 @@ public class AlluxioInterpreter extends Interpreter {
       String[] args = splitAndRemoveEmpty(command, " ");
       if (args.length > 0 && args[0].equals("help")) {
         System.out.println(getCommandList());
-        commandResult = 0 
+        commandResult = 0;
       } else {
         commandResult = fs.run(args);
       }
